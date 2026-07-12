@@ -56,7 +56,10 @@ font-weight:bold;
 
 .hero{
 height:80vh;
-display:flex;
+.hero{
+display:block;
+text-align:center;
+}
 justify-content:center;
 align-items:center;
 text-align:center;
