@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | PRINCE JEWELRIES PLUG</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+body{
+background:#000;
+font-family:Arial,sans-serif;
+margin:0;
+padding:20px;
+color:white;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:#111;
+padding:20px;
+border:2px solid gold;
+border-radius:15px;
+}
+
+h1{
+color:gold;
+text-align:center;
+}
+
+input, select, textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:2px solid gold;
+border-radius:8px;
+font-size:16px;
+box-sizing:border-box;
+}
+
+button{
+background:gold;
+color:black;
+padding:15px;
+border:none;
+border-radius:8px;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+width:100%;
+margin-top:10px;
+}
+
+button:hover{
+background:#d4af37;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>👑 Manage Products</h1>
+
+<label>Product Image</label>
+<input type="file">
+
+<label>Product Name</label>
+<input type="text" placeholder="Enter product name">
+
+<label>Product Code</label>
+<input type="text" value="PJP-001">
+
+<label>Category</label>
+<select>
+<option>Jewelry Set</option>
+<option>Necklace</option>
+<option>Ring</option>
+<option>Bracelet</option>
+<option>Watch</option>
+<option>Earrings</option>
+</select>
+
+<label>Price</label>
+<input type="text" placeholder="₦150,000">
+
+<label>Description</label>
+<textarea rows="5" placeholder="Product description"></textarea>
+
+<button>Add Product</button>
+
+</div>
+
+</body>
+</html>
