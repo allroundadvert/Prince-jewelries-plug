@@ -55,7 +55,7 @@ font-weight:bold;
 }
 
 .hero{
-height:80vh;
+height:auto;
 display:flex;
 justify-content:center;
 align-items:center;
