@@ -56,14 +56,11 @@ font-weight:bold;
 
 .hero{
 height:80vh;
-.hero{
-display:block;
-text-align:center;
-}
+display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
-padding:20px;
+padding:5px;
 background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7));
 }
 
