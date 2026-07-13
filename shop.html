@@ -6,45 +6,60 @@
 <title>Shop | PRINCE JEWELRIES PLUG</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <header>
-
 <div class="logo">
 <h1>👑 PRINCE JEWELRIES PLUG</h1>
 <p>Luxury • Class • Elegance</p>
 </div>
-
-<nav>
-<ul>
-<li><a href="index.html">Home</a></li>
-<li><a href="shop.html">Shop</a></li>
-</ul>
-</nav>
-
-<a href="https://wa.me/2348145891674" class="whatsapp-btn">
-Order on WhatsApp
-</a>
-
+<nav><ul><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li></ul></nav>
+<a href="https://wa.me/2348145891674" class="whatsapp-btn">Order on WhatsApp</a>
 </header>
+
 <section style="padding:20px;text-align:center;">
-
-<input
-type="text"
-placeholder="🔍 Search for jewelry..."
+<input type="text" placeholder="🔍 Search for jewelry..."
 style="width:90%;max-width:500px;padding:15px;font-size:18px;border:2px solid gold;border-radius:30px;outline:none;">
-
 </section>
+
 <section style="padding:40px;">
-
-<h2 style="color:gold;text-align:center;">
-Our Collection
-</h2>
+<h2 style="color:gold;text-align:center;">Our Collection</h2>
 <div id="productContainer"></div>
-
-
 </section>
 
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+const firebaseConfig = {
+ apiKey: "AIzaSyB1gRwZo8hFRmKl4jNXlyngLWZrCWvQAh0",
+ authDomain: "prince-jewelries-plug.firebaseapp.com",
+ databaseURL: "https://prince-jewelries-plug-default-rtdb.firebaseio.com",
+ projectId: "prince-jewelries-plug",
+ storageBucket: "prince-jewelries-plug.firebasestorage.app",
+ messagingSenderId: "412766918362",
+ appId: "1:412766918362:web:c7413e8c1c6664c06db7e3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const container = document.getElementById("productContainer");
+
+onValue(ref(db,"products"), snap => {
+  container.innerHTML="";
+  snap.forEach(item=>{
+    const p=item.val();
+    container.innerHTML += `
+    <div class="product">
+      <img src="${p.image}" style="width:100%;max-width:300px;border-radius:10px;">
+      <h3>${p.name}</h3>
+      <p><strong>Product Code:</strong> ${p.code}</p>
+      <h2>₦${p.price}</h2>
+      <p>${p.description||""}</p>
+      <a class="shop-btn" href="https://wa.me/2348145891674?text=Hello%20PRINCE%20JEWELRIES%20PLUG,%20I%20want%20to%20order%20${encodeURIComponent(p.name)}.%20Product%20Code:%20${encodeURIComponent(p.code)}">Order on WhatsApp</a>
+    </div>`;
+  });
+});
+</script>
 </body>
 </html>
+
