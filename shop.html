@@ -68,37 +68,24 @@ onValue(ref(db,"products"), snap => {
 
 <script>
 async function shareProduct(image, name, code, price) {
-  
-const url = "https://allroundadvert.github.io/Prince-jewelries-plug/shop.html";
+    try {
+        const response = await fetch(image);
+        const blob = await response.blob();
+        const file = new File([blob], "product.jpg", { type: blob.type });
 
-try {
-  const response = await fetch(image);
-  const blob = await response.blob();
-  const file = new File([blob], "product.jpg", { type: blob.type });
-
-  if (navigator.canShare && navigator.canShare({ files: [file] })) {
-    await navigator.share({
-      title: name,
-      text: `👑 PRINCE JEWELRIES PLUG
+        await navigator.share({
+            title: name,
+            text: `👑 PRINCE JEWELRIES PLUG
 
 💎 Product: ${name}
-🏷️ Product Code: ${code}
+🏷 Product Code: ${code}
 💰 Price: ₦${price}`,
-      files: [file]
-    });
-  } else {
-    await navigator.share({
-      title: name,
-      text: `👑 PRINCE JEWELRIES PLUG
+            files: [file]
+        });
 
-💎 Product: ${name}
-🏷️ Product Code: ${code}
-💰 Price: ₦${price}`,
-      url: url
-    });
-  }
-} catch (e) {
-  alert("Your browser doesn't support image sharing.");
+    } catch (err) {
+        console.log(err);
+    }
 }
 </script>
 
