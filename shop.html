@@ -58,7 +58,7 @@ onValue(ref(db,"products"), snap => {
       <h2>₦${p.price}</h2>
       <p>${p.description||""}</p>
       <a class="shop-btn" href="https://wa.me/2348145891674?text=Hello%20PRINCE%20JEWELRIES%20PLUG,%20I%20want%20to%20order%20${encodeURIComponent(p.name)}.%20Product%20Code:%20${encodeURIComponent(p.code)}">Order on WhatsApp</a>
-    <button class="shop-btn" onclick="shareProduct('${p.name}','${p.code}','${p.price}')">
+<button class="shop-btn" onclick="shareProduct('${p.image}','${p.name}','${p.code}','${p.price}')">
 📤 Share
 </button>
     </div>`;
