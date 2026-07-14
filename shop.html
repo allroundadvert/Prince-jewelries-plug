@@ -65,6 +65,39 @@ onValue(ref(db,"products"), snap => {
   });
 });
 </script>
+
+<script>
+function shareProduct(name, code, price) {
+  const url = "https://allroundadvert.github.io/Prince-jewelries-plug/shop.html";
+
+  if (navigator.share) {
+    navigator.share({
+      title: name,
+      text: `👑 PRINCE JEWELRIES PLUG
+
+💎 Product: ${name}
+🏷️ Product Code: ${code}
+💰 Price: ₦${price}`,
+      url: url
+    });
+  } else {
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(
+        "👑 PRINCE JEWELRIES PLUG\n\n💎 Product: " +
+        name +
+        "\n🏷️ Code: " +
+        code +
+        "\n💰 Price: ₦" +
+        price +
+        "\n\n" +
+        url
+      )}`
+    );
+  }
+}
+</script>
+
 </body>
 </html>
+
 
