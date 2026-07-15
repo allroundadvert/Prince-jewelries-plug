@@ -134,22 +134,17 @@ const blob=await response.blob();
 const file=new File([blob],"product.jpg",{type:blob.type});
 
 await navigator.share({
-
-title:name,
-
-text:`👑 PRINCE JEWELRIES PLUG
+    title: name,
+    text: `👑 PRINCE JEWELRIES PLUG
 
 💎 Product: ${name}
-
 🏷 Product Code: ${code}
+💰 Price: ₦${price}
 
-💰 Price: ₦${price}`,
-
-files:[file]
-
+🛒 Buy Now:
+https://allroundadvert.github.io/Prince-jewelries-plug/shop.html`,
+    files: [file]
 });
-
-}catch(err){
 
 console.log(err);
 
