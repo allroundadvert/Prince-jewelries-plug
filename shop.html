@@ -164,7 +164,7 @@ function payWithPaystack(name,price){
 
 let handler=PaystackPop.setup({
 
-key:"pk_test_01b38ecbeb09a3dce31b803cf5edcf950d2782df",
+
 
 email:prompt("Enter your email address"),
 
@@ -173,7 +173,7 @@ amount:Number(price)*100,
 currency:"NGN",
 
 ref:"PJP"+Math.floor((Math.random()*1000000000)+1),
-
+key:"pk_live_33b331a205d88d45cf78059c0b009354f7d1fb17",
 metadata:{
 
 custom_fields:[{
