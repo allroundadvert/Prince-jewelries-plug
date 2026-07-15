@@ -107,11 +107,14 @@ Order on WhatsApp
 onclick="shareProduct('${p.image}','${p.name}','${p.code}','${p.price}')">
 📤 Share
 </button>
+
 <button class="shop-btn"
 style="background:#16a34a;color:white;"
 onclick="payWithPaystack('${p.name}','${p.price}')">
 💳 Buy Now
 </button>
+
+</div>
 
 `;
 
@@ -134,17 +137,22 @@ const blob=await response.blob();
 const file=new File([blob],"product.jpg",{type:blob.type});
 
 await navigator.share({
-    title: name,
-    text: `👑 PRINCE JEWELRIES PLUG
+
+title:name,
+
+text:`👑 PRINCE JEWELRIES PLUG
 
 💎 Product: ${name}
-🏷 Product Code: ${code}
-💰 Price: ₦${price}
 
-🛒 Buy Now:
-https://allroundadvert.github.io/Prince-jewelries-plug/shop.html`,
-    files: [file]
+🏷 Product Code: ${code}
+
+💰 Price: ₦${price}`,
+
+files:[file]
+
 });
+
+}catch(err){
 
 console.log(err);
 
@@ -155,7 +163,9 @@ console.log(err);
 function payWithPaystack(name,price){
 
 let handler=PaystackPop.setup({
-key:"pk_live_33b331a205d88d45cf78059c0b009354f7d1fb17",
+
+key:"pk_test_01b38ecbeb09a3dce31b803cf5edcf950d2782df",
+
 email:prompt("Enter your email address"),
 
 amount:Number(price)*100,
