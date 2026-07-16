@@ -142,7 +142,9 @@ const db = getDatabase(app);
 let productNumber = Math.floor(Math.random()*9000)+1000;
 document.getElementById("productCode").value="PJP-"+productNumber;
 
-document.getElementById("addProduct").addEventListener("click",async()=>{
+const addBtn=document.getElementById("addProduct");
+
+addBtn.addEventListener("click",async()=>{
 
 const image=document.getElementById("imageUrl").value;
 const name=document.getElementById("productName").value;
