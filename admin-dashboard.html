@@ -202,6 +202,9 @@ list.innerHTML+=`
 <p><b>Code:</b> ${p.code}</p>
 
 <p><b>Price:</b> ₦${p.price}</p>
+<button onclick="editProduct('${item.key}')">
+✏️ Edit
+</button>
 
 <button class="deleteBtn" onclick="deleteProduct('${item.key}')">
 🗑 Delete Product
@@ -213,7 +216,45 @@ list.innerHTML+=`
 });
 
 });
+window.editProduct=function(id){
 
+const productRef=ref(db,"products/"+id);
+
+onValue(productRef,(snap)=>{
+
+const p=snap.val();
+
+document.getElementById("imageUrl").value=p.image;
+document.getElementById("productName").value=p.name;
+document.getElementById("productCode").value=p.code;
+document.getElementById("category").value=p.category;
+document.getElementById("price").value=p.price;
+document.getElementById("description").value=p.description;
+
+const btn=document.getElementById("addProduct");
+
+btn.innerHTML="💾 Save Changes";
+
+btn.onclick=async function(){
+
+await set(productRef,{
+image:document.getElementById("imageUrl").value,
+name:document.getElementById("productName").value,
+code:document.getElementById("productCode").value,
+category:document.getElementById("category").value,
+price:document.getElementById("price").value,
+description:document.getElementById("description").value,
+date:new Date().toLocaleString()
+});
+
+alert("✅ Product Updated Successfully");
+location.reload();
+
+};
+
+},{onlyOnce:true});
+
+  }
 window.deleteProduct=function(id){
 
 if(confirm("Delete this product?")){
