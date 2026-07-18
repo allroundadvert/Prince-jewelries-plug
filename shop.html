@@ -1,289 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Shop | PRINCE JEWELRIES PLUG</title>
 
 <link rel="stylesheet" href="style.css">
+
 <script src="https://js.paystack.co/v1/inline.js"></script>
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <div class="logo">
+
 <h1>👑 PRINCE JEWELRIES PLUG</h1>
+
 <p>Luxury • Class • Elegance</p>
+
 </div>
 
+
 <nav>
+
 <ul>
+
 <li><a href="index.html">Home</a></li>
+
 <li><a href="shop.html">Shop</a></li>
+
 </ul>
+
 </nav>
 
+
 <a href="https://wa.me/2348145891674" class="whatsapp-btn">
+
 Order on WhatsApp
+
 </a>
 
+
 </header>
+
+
 
 <a href="https://www.facebook.com/share/1EeEqVkLaw/"
 target="_blank"
 style="display:inline-block;background:#1877F2;color:white;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:10px;">
+
 📘 Follow us on Facebook
+
 </a>
+
+
 
 <section style="padding:20px;text-align:center;">
 
+
 <input
+
 type="text"
+
 placeholder="🔍 Search for jewelry..."
-style="width:90%;max-width:500px;padding:15px;font-size:18px;border:2px solid gold;border-radius:30px;outline:none;">
+
+style="width:90%;max-width:500px;padding:15px;font-size:18px;border:2px solid gold;border-radius:30px;outline:none;"
+
+>
+
 
 </section>
+
+
+
 
 <section style="padding:40px;">
 
+
 <h2 style="color:gold;text-align:center;">
+
 Our Collection
+
 </h2>
+
 
 <div id="productContainer"></div>
 
+
 </section>
+
+
+
+
 
 <script type="module">
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+
+
+import { getDatabase, ref, onValue, push, set } 
+from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+
+
 
 const firebaseConfig = {
- apiKey: "AIzaSyB1gRwZo8hFRmKl4jNXlyngLWZrCWvQAh0",
- authDomain: "prince-jewelries-plug.firebaseapp.com",
- databaseURL: "https://prince-jewelries-plug-default-rtdb.firebaseio.com",
- projectId: "prince-jewelries-plug",
- storageBucket: "prince-jewelries-plug.firebasestorage.app",
- messagingSenderId: "412766918362",
- appId: "1:412766918362:web:c7413e8c1c6664c06db7e3"
+
+
+apiKey: "AIzaSyB1gRwZo8hFRmKl4jNXlyngLWZrCWvQAh0",
+
+
+authDomain: "prince-jewelries-plug.firebaseapp.com",
+
+
+databaseURL: "https://prince-jewelries-plug-default-rtdb.firebaseio.com",
+
+
+projectId: "prince-jewelries-plug",
+
+
+storageBucket: "prince-jewelries-plug.firebasestorage.app",
+
+
+messagingSenderId: "412766918362",
+
+
+appId: "1:412766918362:web:c7413e8c1c6664c06db7e3"
+
+
 };
 
+
+
 const app = initializeApp(firebaseConfig);
+
+
 const db = getDatabase(app);
+
+
 const container = document.getElementById("productContainer");
+
+
 
 onValue(ref(db,"products"), snap => {
 
+
+container.innerHTML = "";
+
+
+
+snap.forEach(item=>{
+
+
+const p = item.val();
+
+
+
 container.innerHTML += `
+
 
 <div class="product">
 
+
 <img src="${p.image}" style="width:100%;max-width:300px;border-radius:10px;">
+
 
 <h3>${p.name}</h3>
 
+
 <p>Product Code: ${p.code}</p>
 
+
 <h2>₦${p.price}</h2>
+
 
 <p>${p.description || ""}</p>
 
 
 <input class="customerName" placeholder="Full Name">
 
+
 <input class="customerPhone" placeholder="Phone Number">
+
 
 <input class="customerEmail" placeholder="Email">
 
+
 <textarea class="customerAddress" placeholder="Delivery Address"></textarea>
+
 
 <input class="quantity" type="number" value="1">
 
 
 <button class="shop-btn"
-onclick="buyNow(
-'${p.name}',
-'${p.code}',
-'${p.price}',
-this
-)">
+
+onclick="buyNow('${p.name}','${p.code}','${p.price}',this)">
+
 🛒 Order Now
+
 </button>
 
 
 </div>
 
+
 `;
+
 
 });
 
-</script>
 
+});
+
+
+</script>
 <script>
+
 
 async function shareProduct(image,name,code,price){
 
+
 try{
 
-const response=await fetch(image);
 
-const blob=await response.blob();
+const response = await fetch(image);
 
-const file=new File([blob],"product.jpg",{type:blob.type});
+
+const blob = await response.blob();
+
+
+const file = new File([blob],"product.jpg",{type:blob.type});
+
 
 await navigator.share({
 
+
 title:name,
+
 
 text:`👑 PRINCE JEWELRIES PLUG
 
 💎 Product: ${name}
+
 🏷 Product Code: ${code}
+
 💰 Price: ₦${price}
 
 🛒 Buy Online:
-https://allroundadvert.github.io/Prince-jewelries-plug/shop.html
+https://allroundadvert.github.io/Prince-jewelries-plug/shop.html`,
 
-📲 To order, tap the WhatsApp button on our website.`,
+
 files:[file]
+
 
 });
 
-}catch(err){
+
+}
+
+catch(err){
 
 console.log(err);
 
 }
 
-}
-
-function payWithPaystack(name, price){
-
-const customerName =
-document.getElementById("customerName").value;
-
-const customerPhone =
-document.getElementById("customerPhone").value;
-
-const customerEmail =
-document.getElementById("customerEmail").value;
-
-const customerAddress =
-document.getElementById("customerAddress").value;
-
-const quantity =
-document.getElementById("quantity").value;
-
-if(!customerName || !customerPhone || !customerAddress){
-
-alert("Please fill your Name, Phone Number and Delivery Address.");
-
-return;
 
 }
 
-let handler = PaystackPop.setup({
 
-key:"pk_live_33b331a205d88d45cf78059c0b009354f7d1fb17",
 
-email: customerEmail || "customer@email.com",
 
-amount:Number(price)*100,
 
-currency:"NGN",
 
-ref:"PJP"+Math.floor((Math.random()*1000000000)+1),
 
-metadata:{
-
-custom_fields:[
-
-{
-display_name:"Customer Name",
-variable_name:"customer_name",
-value:customerName
-},
-
-{
-display_name:"Phone Number",
-variable_name:"phone",
-value:customerPhone
-},
-
-{
-display_name:"Delivery Address",
-variable_name:"address",
-value:customerAddress
-},
-
-{
-display_name:"Quantity",
-variable_name:"quantity",
-value:quantity
-},
-
-{
-display_name:"Product",
-variable_name:"product",
-value:name
-}
-
-]
-
-},
-
-callback:function(response){
- const orderRef = push(ref(db,"orders"));
-
-set(orderRef,{
-customerName: customerName,
-customerPhone: customerPhone,
-customerEmail: customerEmail,
-customerAddress: customerAddress,
-quantity: quantity,
-product: name,
-price: price,
-paymentReference: response.reference,
-date: new Date().toLocaleString()
-});
-
-alert("Payment Successful!\nReference: "+response.reference);
-
-window.location.href =
-"https://wa.me/2348145891674?text="
-+encodeURIComponent(
-"Payment Successful\n\n"
-+"Customer: "+customerName+"\n"
-+"Phone: "+customerPhone+"\n"
-+"Address: "+customerAddress+"\n"
-+"Quantity: "+quantity+"\n"
-+"Product: "+name+"\n"
-+"Amount: ₦"+price+"\n"
-+"Reference: "+response.reference
-);
-
-},
-
-onClose:function(){
-
-alert("Payment Cancelled");
-
-}
-
-});
-
-handler.openIframe();
-
-}
-
-</script>
 function buyNow(name,code,price,btn){
 
+
 let card = btn.parentElement;
+
 
 
 let customerName =
@@ -309,8 +313,12 @@ card.querySelector(".quantity").value;
 
 if(!customerName || !customerPhone || !customerAddress){
 
+
 alert("Please fill your details");
+
+
 return;
+
 
 }
 
@@ -319,50 +327,82 @@ return;
 const orderRef = push(ref(db,"orders"));
 
 
+
 set(orderRef,{
+
 
 customerName:customerName,
 
+
 customerPhone:customerPhone,
+
 
 customerEmail:customerEmail,
 
+
 customerAddress:customerAddress,
+
 
 product:name,
 
+
 productCode:code,
+
 
 price:price,
 
+
 quantity:quantity,
+
 
 status:"Pending",
 
+
 date:new Date().toLocaleString()
 
+
 });
+
 
 
 alert("Order received successfully");
 
 
-window.location.href=
+
+window.location.href =
+
 "https://wa.me/2348145891674?text="
+
 +encodeURIComponent(
 
+
 "New Order\n\n"+
+
 "Customer: "+customerName+
+
 "\nPhone: "+customerPhone+
+
 "\nProduct: "+name+
+
 "\nCode: "+code+
+
 "\nQuantity: "+quantity+
+
 "\nAddress: "+customerAddress
+
 
 );
 
 
+
 }
+
+
+
 </script>
+
+
+
 </body>
+
 </html>
