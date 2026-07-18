@@ -107,7 +107,21 @@ Order on WhatsApp
 onclick="shareProduct('${p.image}','${p.name}','${p.code}','${p.price}')">
 📤 Share
 </button>
+<h3>Delivery Details</h3>
 
+<input type="text" id="customerName" placeholder="Full Name" required>
+
+<input type="tel" id="customerPhone" placeholder="Phone Number" required>
+
+<input type="email" id="customerEmail" placeholder="Email (Optional)">
+
+<textarea id="customerAddress" placeholder="Delivery Address" rows="3" required></textarea>
+
+<input type="number" id="quantity" value="1" min="1">
+
+<button onclick="buyNow()">
+🛒 Buy & Pay
+</button>
 <button class="shop-btn"
 style="background:#16a34a;color:white;"
 onclick="payWithPaystack('${p.name}','${p.price}')">
@@ -162,37 +176,97 @@ console.log(err);
 
 }
 
-function payWithPaystack(name,price){
+function payWithPaystack(name, price){
 
-let handler=PaystackPop.setup({
+const customerName =
+document.getElementById("customerName").value;
+
+const customerPhone =
+document.getElementById("customerPhone").value;
+
+const customerEmail =
+document.getElementById("customerEmail").value;
+
+const customerAddress =
+document.getElementById("customerAddress").value;
+
+const quantity =
+document.getElementById("quantity").value;
+
+if(!customerName || !customerPhone || !customerAddress){
+
+alert("Please fill your Name, Phone Number and Delivery Address.");
+
+return;
+
+}
+
+let handler = PaystackPop.setup({
+
 key:"pk_live_33b331a205d88d45cf78059c0b009354f7d1fb17",
 
-
-email:prompt("Enter your email address"),
+email: customerEmail || "customer@email.com",
 
 amount:Number(price)*100,
 
 currency:"NGN",
 
 ref:"PJP"+Math.floor((Math.random()*1000000000)+1),
-key:"pk_live_33b331a205d88d45cf78059c0b009354f7d1fb17",
+
 metadata:{
 
-custom_fields:[{
+custom_fields:[
 
+{
+display_name:"Customer Name",
+variable_name:"customer_name",
+value:customerName
+},
+
+{
+display_name:"Phone Number",
+variable_name:"phone",
+value:customerPhone
+},
+
+{
+display_name:"Delivery Address",
+variable_name:"address",
+value:customerAddress
+},
+
+{
+display_name:"Quantity",
+variable_name:"quantity",
+value:quantity
+},
+
+{
 display_name:"Product",
-
 variable_name:"product",
-
 value:name
+}
 
-}]
+]
 
 },
 
 callback:function(response){
 
 alert("Payment Successful!\nReference: "+response.reference);
+
+window.location.href =
+"https://wa.me/2348145891674?text="
++encodeURIComponent(
+"Payment Successful\n\n"
++"Customer: "+customerName+"\n"
++"Phone: "+customerPhone+"\n"
++"Address: "+customerAddress+"\n"
++"Quantity: "+quantity+"\n"
++"Product: "+name+"\n"
++"Amount: ₦"+price+"\n"
++"Reference: "+response.reference
+);
 
 },
 
@@ -206,6 +280,7 @@ alert("Payment Cancelled");
 
 handler.openIframe();
 
+}
 }
 
 </script>
