@@ -60,7 +60,7 @@ Our Collection
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
+import { getDatabase, ref, onValue, push, set } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
 
 const firebaseConfig = {
  apiKey: "AIzaSyB1gRwZo8hFRmKl4jNXlyngLWZrCWvQAh0",
@@ -252,6 +252,19 @@ value:name
 },
 
 callback:function(response){
+ const orderRef = push(ref(db,"orders"));
+
+set(orderRef,{
+customerName: customerName,
+customerPhone: customerPhone,
+customerEmail: customerEmail,
+customerAddress: customerAddress,
+quantity: quantity,
+product: name,
+price: price,
+paymentReference: response.reference,
+date: new Date().toLocaleString()
+});
 
 alert("Payment Successful!\nReference: "+response.reference);
 
