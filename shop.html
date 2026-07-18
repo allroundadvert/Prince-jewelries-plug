@@ -78,12 +78,6 @@ const container = document.getElementById("productContainer");
 
 onValue(ref(db,"products"), snap => {
 
-container.innerHTML="";
-
-snap.forEach(item=>{
-
-const p=item.val();
-
 container.innerHTML += `
 
 <div class="product">
@@ -92,47 +86,38 @@ container.innerHTML += `
 
 <h3>${p.name}</h3>
 
-<p><strong>Product Code:</strong> ${p.code}</p>
+<p>Product Code: ${p.code}</p>
 
 <h2>₦${p.price}</h2>
 
-<p>${p.description||""}</p>
+<p>${p.description || ""}</p>
 
-<a class="shop-btn"
-href="https://wa.me/2348145891674?text=Hello%20PRINCE%20JEWELRIES%20PLUG,%20I%20want%20to%20order%20${encodeURIComponent(p.name)}.%20Product%20Code:%20${encodeURIComponent(p.code)}">
-Order on WhatsApp
-</a>
+
+<input class="customerName" placeholder="Full Name">
+
+<input class="customerPhone" placeholder="Phone Number">
+
+<input class="customerEmail" placeholder="Email">
+
+<textarea class="customerAddress" placeholder="Delivery Address"></textarea>
+
+<input class="quantity" type="number" value="1">
+
 
 <button class="shop-btn"
-onclick="shareProduct('${p.image}','${p.name}','${p.code}','${p.price}')">
-📤 Share
+onclick="buyNow(
+'${p.name}',
+'${p.code}',
+'${p.price}',
+this
+)">
+🛒 Order Now
 </button>
-<h3>Delivery Details</h3>
 
-<input type="text" id="customerName" placeholder="Full Name" required>
-
-<input type="tel" id="customerPhone" placeholder="Phone Number" required>
-
-<input type="email" id="customerEmail" placeholder="Email (Optional)">
-
-<textarea id="customerAddress" placeholder="Delivery Address" rows="3" required></textarea>
-
-<input type="number" id="quantity" value="1" min="1">
-
-<button onclick="buyNow()">
-🛒 Buy & Pay
-</button>
-<button class="shop-btn"
-style="background:#16a34a;color:white;"
-onclick="payWithPaystack('${p.name}','${p.price}')">
-💳 Buy Now
-</button>
 
 </div>
 
 `;
-
-});
 
 });
 
@@ -296,6 +281,88 @@ handler.openIframe();
 }
 
 </script>
+function buyNow(name,code,price,btn){
 
+let card = btn.parentElement;
+
+
+let customerName =
+card.querySelector(".customerName").value;
+
+
+let customerPhone =
+card.querySelector(".customerPhone").value;
+
+
+let customerEmail =
+card.querySelector(".customerEmail").value;
+
+
+let customerAddress =
+card.querySelector(".customerAddress").value;
+
+
+let quantity =
+card.querySelector(".quantity").value;
+
+
+
+if(!customerName || !customerPhone || !customerAddress){
+
+alert("Please fill your details");
+return;
+
+}
+
+
+
+const orderRef = push(ref(db,"orders"));
+
+
+set(orderRef,{
+
+customerName:customerName,
+
+customerPhone:customerPhone,
+
+customerEmail:customerEmail,
+
+customerAddress:customerAddress,
+
+product:name,
+
+productCode:code,
+
+price:price,
+
+quantity:quantity,
+
+status:"Pending",
+
+date:new Date().toLocaleString()
+
+});
+
+
+alert("Order received successfully");
+
+
+window.location.href=
+"https://wa.me/2348145891674?text="
++encodeURIComponent(
+
+"New Order\n\n"+
+"Customer: "+customerName+
+"\nPhone: "+customerPhone+
+"\nProduct: "+name+
+"\nCode: "+code+
+"\nQuantity: "+quantity+
+"\nAddress: "+customerAddress
+
+);
+
+
+}
+</script>
 </body>
 </html>
