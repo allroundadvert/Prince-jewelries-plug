@@ -1,128 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Dashboard | PRINCE JEWELRIES PLUG</title>
 
-<style>
-body{
-background:#000;
-font-family:Arial,sans-serif;
-margin:0;
-padding:20px;
-color:white;
-}
-.container{
-max-width:900px;
-margin:auto;
-background:#111;
-padding:20px;
-border:2px solid gold;
-border-radius:15px;
-}
-h1,h2{
-color:gold;
-text-align:center;
-}
-input,select,textarea{
-width:100%;
-padding:12px;
-margin:10px 0;
-border:2px solid gold;
-border-radius:8px;
-font-size:16px;
-box-sizing:border-box;
-}
-button{
-background:gold;
-color:black;
-padding:12px;
-border:none;
-border-radius:8px;
-font-size:16px;
-font-weight:bold;
-cursor:pointer;
-margin-top:10px;
-}
-.deleteBtn{
-background:red;
-color:white;
-width:auto;
-padding:8px 15px;
-}
-.productCard{
-border:1px solid gold;
-padding:15px;
-margin-top:15px;
-border-radius:10px;
-}
-.productCard img{
-width:120px;
-height:120px;
-object-fit:cover;
-border-radius:8px;
-}
-#message{
-text-align:center;
-color:gold;
-margin-top:15px;
-}
-</style>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Admin Dashboard | Prince Jewelries Plug</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 </head>
 
 <body>
 
-<div class="container">
+<header>
 
-<h1>👑 Manage Products</h1>
+<div class="logo">
 
-<label>Product Image URL</label>
-<input type="text" id="imageUrl">
+💎 PRINCE JEWELRIES PLUG ADMIN
 
-<label>Product Name</label>
-<input type="text" id="productName">
+</div>
 
-<label>Product Code</label>
-<input type="text" id="productCode" readonly>
+</header>
 
-<label>Category</label>
-<select id="category">
-<option>Jewelry Set</option>
-<option>Necklace</option>
-<option>Ring</option>
-<option>Bracelet</option>
-<option>Watch</option>
-<option>Earrings</option>
-<option>Perfume</option>
-<option>Body Spray</option>
-<option>Phone</option>
-<option>Phone Accessories</option>
-<option>Smart Watch</option>
-<option>AirPods</option>
-<option>Power Bank</option>
-<option>Bluetooth Speaker</option>
-<option>Headphones</option>
-<option>Charger</option>
-<option>USB Cable</option>
+<section class="dashboard-stats">
+
+<div class="product-card">
+<h3>Total Products</h3>
+<h1 id="totalProducts">0</h1>
+</div>
+
+<div class="product-card">
+<h3>Total Orders</h3>
+<h1 id="totalOrders">0</h1>
+</div>
+
+<div class="product-card">
+<h3>Total Revenue</h3>
+<h1 id="totalRevenue">₦0</h1>
+</div>
+
+<div class="product-card">
+<h3>Delivered Orders</h3>
+<h1 id="deliveredOrders">0</h1>
+</div>
+
+<div class="product-card">
+<h3>Pending Orders</h3>
+<h1 id="pendingOrders">0</h1>
+</div>
+
+</section>
+
+<section class="products" style="margin-top:120px;">
+
+<h2>Upload New Product</h2>
+
+<input type="text" id="productName" placeholder="Product Name">
+
+<br><br>
+
+<input type="number" id="productPrice" placeholder="Product Price">
+
+<br><br>
+
+<input type="number" id="oldPrice" placeholder="Old Price">
+
+<br><br>
+
+<input type="number" id="productQuantity" placeholder="Quantity Available">
+
+<br><br>
+
+<select id="productCategory">
+    <option value="">Select Category</option>
+    <option value="Jewelries">Jewelries</option>
+    <option value="Perfumes">Perfumes</option>
+    <option value="Male Clothing">Male Clothing</option>
+    <option value="Female Clothing">Female Clothing</option>
+    <option value="Mobile Accessories">Mobile Accessories</option>
+    <option value="More">More</option>
 </select>
 
-<label>Price</label>
-<input type="text" id="price">
+<br><br>
 
-<label>Description</label>
-<textarea id="description"></textarea>
+<textarea id="productDescription" placeholder="Product Description"></textarea>
 
-<button id="addProduct">Add Product</button>
+<br><br>
 
-<p id="message"></p>
+<input type="text" id="productImage" placeholder="Paste Product Image URL">
 
-<hr>
+<br><br>
 
-<h2>Products</h2>
+<button class="shop-btn" id="uploadBtn">
 
-<div id="productList"></div>
-</div>
+Upload Product
+
+</button>
+
+
+
+
+</section>
+
+<section class="products">
+
+<h2>Uploaded Products</h2>
+
+<div id="adminProducts"></div>
+
+</section>
+
+
+
+
 
 <script type="module">
 
@@ -136,145 +131,153 @@ set,
 onValue,
 remove
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-database.js";
-
 const firebaseConfig = {
+
 apiKey: "AIzaSyB1gRwZo8hFRmKl4jNXlyngLWZrCWvQAh0",
+
 authDomain: "prince-jewelries-plug.firebaseapp.com",
+
 databaseURL: "https://prince-jewelries-plug-default-rtdb.firebaseio.com",
+
 projectId: "prince-jewelries-plug",
+
 storageBucket: "prince-jewelries-plug.firebasestorage.app",
+
 messagingSenderId: "412766918362",
+
 appId: "1:412766918362:web:c7413e8c1c6664c06db7e3"
+
 };
 
 const app = initializeApp(firebaseConfig);
+
 const db = getDatabase(app);
 
-let productNumber = Math.floor(Math.random()*9000)+1000;
-document.getElementById("productCode").value="PJP-"+productNumber;
+const uploadBtn = document.getElementById("uploadBtn");
 
-const addBtn=document.getElementById("addProduct");
+uploadBtn.addEventListener("click", uploadProduct);
 
-addBtn.addEventListener("click",async()=>{
+async function uploadProduct(){
 
-const image=document.getElementById("imageUrl").value;
-const name=document.getElementById("productName").value;
-const code=document.getElementById("productCode").value;
-const category=document.getElementById("category").value;
-const price=document.getElementById("price").value;
-const description=document.getElementById("description").value;
+const name = document.getElementById("productName").value.trim();
 
-if(!image||!name||!price){
-document.getElementById("message").innerHTML="Please fill image, name and price";
+const price = document.getElementById("productPrice").value;
+
+const oldPrice = document.getElementById("oldPrice").value;
+
+const quantity = document.getElementById("productQuantity").value;
+
+const category = document.getElementById("productCategory").value.trim();
+
+const description = document.getElementById("productDescription").value.trim();
+
+const image = document.getElementById("productImage").value.trim();
+
+if(!name || !price || !quantity || !category || !description || !image){
+
+alert("Please complete all fields.");
+
 return;
+
 }
 
-const productRef=push(ref(db,"products"));
+try{
+
+const productRef = push(ref(db,"products"));
 
 await set(productRef,{
-image,
-name,
-code,
-category,
-price,
-description,
-date:new Date().toLocaleString()
+
+name:name,
+
+price:Number(price),
+
+oldPrice:Number(oldPrice || 0),
+
+quantity:Number(quantity),
+
+category:category,
+
+description:description,
+
+image:image,
+
+createdAt:Date.now()
+
 });
 
-document.getElementById("message").innerHTML="✅ Product Added Successfully";
+alert("Product uploaded successfully!");
 
-document.getElementById("imageUrl").value="";
 document.getElementById("productName").value="";
-document.getElementById("price").value="";
-document.getElementById("description").value="";
 
-productNumber=Math.floor(Math.random()*9000)+1000;
-document.getElementById("productCode").value="PJP-"+productNumber;
+document.getElementById("productPrice").value="";
 
-});
+document.getElementById("oldPrice").value="";
 
-const list=document.getElementById("productList");
+document.getElementById("productQuantity").value="";
 
-onValue(ref(db,"products"),snapshot=>{
+document.getElementById("productCategory").value="";
 
-list.innerHTML="";
+document.getElementById("productDescription").value="";
 
-snapshot.forEach(item=>{
+document.getElementById("productImage").value="";
 
-const p=item.val();
+}catch(error){
 
-list.innerHTML+=`
-<div class="productCard">
+alert(error.message);
 
-<img src="${p.image}">
+}
 
-<h3>${p.name}</h3>
+}
+  const adminProducts = document.getElementById("adminProducts");
 
-<p><b>Code:</b> ${p.code}</p>
+onValue(ref(db,"products"), (snapshot)=>{
 
-<p><b>Price:</b> ₦${p.price}</p>
-<button onclick="editProduct('${item.key}')">
-✏️ Edit
-</button>
+adminProducts.innerHTML = "";
 
-<button class="deleteBtn" onclick="deleteProduct('${item.key}')">
-🗑 Delete Product
+let totalProducts = 0;
+
+snapshot.forEach((child)=>{
+
+totalProducts++;
+
+const product = child.val();
+
+adminProducts.innerHTML += `
+
+<div class="product-card">
+
+<img src="${product.image}" width="120">
+
+<h3>${product.name}</h3>
+
+<p><strong>Price:</strong> ₦${Number(product.price).toLocaleString()}</p>
+
+<p><strong>Old Price:</strong> ₦${Number(product.oldPrice || 0).toLocaleString()}</p>
+
+<p><strong>Quantity:</strong> ${product.quantity}</p>
+
+<p><strong>Category:</strong> ${product.category}</p>
+
+<p>${product.description}</p>
+
+<button class="delete-btn" onclick="deleteProduct('${child.key}')">
+Delete Product
 </button>
 
 </div>
+
 `;
+});
+
+document.getElementById("totalProducts").textContent = totalProducts;
 
 });
 
-});
-window.editProduct=function(id){
-
-const productRef=ref(db,"products/"+id);
-
-onValue(productRef,(snap)=>{
-
-const p=snap.val();
-
-document.getElementById("imageUrl").value=p.image;
-document.getElementById("productName").value=p.name;
-document.getElementById("productCode").value=p.code;
-document.getElementById("category").value=p.category;
-document.getElementById("price").value=p.price;
-document.getElementById("description").value=p.description;
-
-const btn=document.getElementById("addProduct");
-
-btn.innerHTML="💾 Save Changes";
-
-btn.onclick=async function(){
-
-await set(productRef,{
-image:document.getElementById("imageUrl").value,
-name:document.getElementById("productName").value,
-code:document.getElementById("productCode").value,
-category:document.getElementById("category").value,
-price:document.getElementById("price").value,
-description:document.getElementById("description").value,
-date:new Date().toLocaleString()
-});
-
-alert("✅ Product Updated Successfully");
-location.reload();
-
+window.deleteProduct = function(id){
+    if(confirm("Delete this product?")){
+        remove(ref(db,"products/" + id));
+    }
 };
-
-},{onlyOnce:true});
-
-  }
-window.deleteProduct=function(id){
-
-if(confirm("Delete this product?")){
-
-remove(ref(db,"products/"+id));
-
-}
-
-}
 
 </script>
 
